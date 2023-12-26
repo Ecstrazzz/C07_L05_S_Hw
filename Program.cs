@@ -144,11 +144,87 @@
 
 // Решение:
 
+// Console.WriteLine("Введите количество строк");
+// int Row = Convert.ToInt32(Console.ReadLine());
+// Console.WriteLine("Введите количество столбцов");
+// int Col = Convert.ToInt32(Console.ReadLine());
+// int[,] array = new int[Row, Col];
+
+// void CreateArray()
+// {
+//     for (int i = 0; i < array.GetLength(0); i++)
+//     {
+//         for (int j = 0; j < array.GetLength(1); j++)
+//         {
+//             array[i, j] = new Random().Next(1, 10);
+//         }
+//     }
+// }
+
+// void PrintArray()
+// {
+//     for (int i = 0; i < array.GetLength(0); i++)
+//     {
+//         for (int j = 0; j < array.GetLength(1); j++)
+//         {
+//             Console.Write(array[i, j] + " ");
+//         }
+//         Console.WriteLine();
+//     }
+//     Console.WriteLine();
+// }
+
+// int FindRowMinSum()
+// {
+//     int minSum = 0;
+//     int indexMin = 0;
+//     for (int i = 0; i < array.GetLength(0); i++)
+//     {
+//         int sum = 0;
+//         for (int j = 0; j < array.GetLength(1); j++)
+//         {
+//             sum += array[i, j];
+//         }
+//         if (i == 0)
+//         {
+//             minSum = sum;
+//         }
+//         //Console.WriteLine($"min = {minSum} sum = {sum}");
+//         if (sum < minSum)
+//         {
+//             minSum = sum;
+//             indexMin = i;
+//         }
+//     }
+//     return indexMin;
+// }
+
+// CreateArray();
+// PrintArray();
+// Console.WriteLine("Строка с наименьшей суммой элементов = " + FindRowMinSum());
+
+// -----------------------------------------------
+
+// Задача 4*(не обязательная): Задайте двумерный массив
+// из целых чисел. Напишите программу, которая удалит
+// строку и столбец, на пересечении которых расположен
+// наименьший элемент массива. Под удалением понимается
+// создание нового двумерного массива без строки и столбца
+
+// Пример: 4 3 1 => 2 6
+//         2 6 9    4 6
+//         4 6 2
+
+// Решение:
+
 Console.WriteLine("Введите количество строк");
 int Row = Convert.ToInt32(Console.ReadLine());
 Console.WriteLine("Введите количество столбцов");
 int Col = Convert.ToInt32(Console.ReadLine());
 int[,] array = new int[Row, Col];
+int[,] newArray = new int[array.GetLength(0), array.GetLength(1)];
+int minRow = 0;
+int minCol = 0;
 
 void CreateArray()
 {
@@ -174,31 +250,49 @@ void PrintArray()
     Console.WriteLine();
 }
 
-int FindRowMinSum()
+void FindMinItem()
 {
-    int minSum = 0;
-    int indexMin = 0;
+    int min = array[0, 0];
+
     for (int i = 0; i < array.GetLength(0); i++)
     {
-        int sum = 0;
         for (int j = 0; j < array.GetLength(1); j++)
         {
-            sum += array[i, j];
-        }
-        if (i == 0)
-        {
-            minSum = sum;
-        }
-        //Console.WriteLine($"min = {minSum} sum = {sum}");
-        if (sum < minSum)
-        {
-            minSum = sum;
-            indexMin = i;
+            if (min > array[i, j])
+            {
+                min = array[i, j];
+                minRow = i;
+                minCol = j;
+            }
         }
     }
-    return indexMin;
+    Console.WriteLine($"минимум = {min} строка = {minRow} столбец = {minCol}\n");
+}
+
+void PrintResArray()
+{
+    for (int i = 0; i < array.GetLength(0); i++)
+    {
+        if (i == minRow)
+        {
+            i++;
+        }
+        for (int j = 0; j < array.GetLength(1); j++)
+        {
+            if (j == minCol)
+            {
+                j++;
+            }
+            newArray[i, j] = array[i, j];
+            Console.Write(newArray[i, j] + " ");
+        }
+        Console.WriteLine();
+    }
+    Console.WriteLine();
 }
 
 CreateArray();
+Console.WriteLine();
 PrintArray();
-Console.WriteLine("Строка с наименьшей суммой элементов = " + FindRowMinSum());
+FindMinItem();
+PrintResArray();
